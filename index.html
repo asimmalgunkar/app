@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Daily Collection Remittance</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand"><div class="logo">G</div><div><b>Glitch</b><span>Daily Collection</span></div></div>
+      <button class="nav active" data-page="dashboard">Dashboard</button>
+      <button class="nav" data-page="form">New Submission</button>
+      <button class="nav" data-page="reports">Reports</button>
+      <button class="nav" data-page="settings">Settings</button>
+    </aside>
+
+    <main>
+      <header>
+        <h1>Daily Collection Remittance</h1>
+        <div class="actions">
+          <button id="exportCsv" class="secondary">Export CSV / Excel</button>
+          <button id="clearData" class="danger">Clear Local Data</button>
+        </div>
+      </header>
+
+      <section id="dashboard" class="page active">
+        <div class="cards">
+          <div class="card"><span>Total Cash</span><b id="kpiCash">AED 0.00</b></div>
+          <div class="card"><span>Total Card</span><b id="kpiCard">AED 0.00</b></div>
+          <div class="card"><span>Grand Total</span><b id="kpiGrand">AED 0.00</b></div>
+          <div class="card"><span>Difference</span><b id="kpiDiff">AED 0.00</b></div>
+        </div>
+        <div class="panel"><h2>Latest Submissions</h2><div class="table-wrap"><table id="latestTable"></table></div></div>
+      </section>
+
+      <section id="form" class="page">
+        <form id="collectionForm" class="panel form-grid">
+          <h2>New Daily Collection Form</h2>
+          <label>Date <input name="date" type="date" required></label>
+          <label>Time <input name="time" type="time" required></label>
+          <label>Store <select name="store"><option>Glitch Dubai Mall</option><option>Glitch Abu Dhabi</option><option>Flayva</option></select></label>
+          <label>Department <input name="department" value="Operations"></label>
+          <label>POS ID <input name="posId" placeholder="POS-01" required></label>
+          <label>Cashier Name <input name="cashier" required></label>
+          <label>Manager on Duty <input name="manager" required></label>
+          <label>Shift <select name="shift"><option>Morning</option><option>Evening</option><option>Night</option></select></label>
+          <label>Float Amount <input name="floatAmount" type="number" step="0.01" value="0"></label>
+          <label>Expected POS Total <input name="expectedTotal" type="number" step="0.01" value="0"></label>
+
+          <h3>Cash Count</h3>
+          <div class="denoms" id="denoms"></div>
+
+          <h3>Card / Voucher Count</h3>
+          <label>Visa <input name="visa" type="number" step="0.01" value="0"></label>
+          <label>MasterCard <input name="mastercard" type="number" step="0.01" value="0"></label>
+          <label>Amex <input name="amex" type="number" step="0.01" value="0"></label>
+          <label>TPV Vouchers <input name="tpv" type="number" step="0.01" value="0"></label>
+          <label>Other Card <input name="otherCard" type="number" step="0.01" value="0"></label>
+
+          <h3>Foreign Currency AED Value</h3>
+          <label>USD <input name="usd" type="number" step="0.01" value="0"></label>
+          <label>GBP <input name="gbp" type="number" step="0.01" value="0"></label>
+          <label>EURO <input name="eur" type="number" step="0.01" value="0"></label>
+          <label>SAR <input name="sar" type="number" step="0.01" value="0"></label>
+          <label>OMR <input name="omr" type="number" step="0.01" value="0"></label>
+          <label>KWD <input name="kwd" type="number" step="0.01" value="0"></label>
+          <label>BHD <input name="bhd" type="number" step="0.01" value="0"></label>
+          <label>QAR <input name="qar" type="number" step="0.01" value="0"></label>
+
+          <div class="summary-box">
+            <div>Total Cash: <b id="cashTotal">AED 0.00</b></div>
+            <div>Card Total: <b id="cardTotal">AED 0.00</b></div>
+            <div>Foreign Total: <b id="foreignTotal">AED 0.00</b></div>
+            <div>Grand Total: <b id="grandTotal">AED 0.00</b></div>
+            <div>Difference: <b id="difference">AED 0.00</b></div>
+          </div>
+          <label class="full">Manager Comment <textarea name="comment"></textarea></label>
+          <button class="primary full" type="submit">Submit Collection</button>
+        </form>
+      </section>
+
+      <section id="reports" class="page">
+        <div class="panel"><h2>Reports</h2><input id="search" placeholder="Search store, cashier, POS, date..."/><div class="table-wrap"><table id="reportTable"></table></div></div>
+      </section>
+
+      <section id="settings" class="page">
+        <div class="panel"><h2>Google Sheets Backend Link</h2>
+          <p>Paste your Google Apps Script Web App URL below to push every submission to Google Sheets online.</p>
+          <input id="sheetUrl" placeholder="https://script.google.com/macros/s/....../exec" />
+          <button id="saveSheetUrl" class="primary">Save Backend URL</button>
+          <p class="hint">Apps Script code is included in <b>google-apps-script.js</b>.</p>
+        </div>
+      </section>
+    </main>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>

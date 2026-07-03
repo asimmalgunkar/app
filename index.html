@@ -1,100 +1,40 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Daily Collection Remittance</title>
-  <link rel="stylesheet" href="styles.css" />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Daily Collection</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f5f7fb;--card:#fff;--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--brand:#1f4e78;--ok:#16a34a;--bad:#dc2626;--warn:#f59e0b}*{box-sizing:border-box}body{margin:0;background:var(--bg);font-family:Inter,system-ui,Arial;color:var(--ink)}header{background:linear-gradient(135deg,#0f172a,#1f4e78);color:#fff;padding:22px 18px}.wrap{max-width:1180px;margin:auto}.top{display:flex;gap:16px;justify-content:space-between;align-items:center;flex-wrap:wrap}.title{font-size:24px;font-weight:800}.sub{opacity:.85;margin-top:4px}.pill{background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.2);padding:10px 14px;border-radius:999px;font-weight:700}.grid{display:grid;grid-template-columns:1.1fr .9fr;gap:18px;margin:18px auto}.card{background:var(--card);border:1px solid var(--line);border-radius:18px;box-shadow:0 10px 30px rgba(15,23,42,.06);padding:18px}.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.kpi{padding:16px;border-radius:16px;background:#f8fafc;border:1px solid var(--line)}.kpi .label{color:var(--muted);font-size:12px;font-weight:700}.kpi .val{font-size:22px;font-weight:800;margin-top:6px}.section-title{font-size:18px;font-weight:800;margin:2px 0 14px}label{font-size:12px;color:var(--muted);font-weight:700;display:block;margin:0 0 6px}.row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.row2{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}input,select,textarea{width:100%;padding:12px;border-radius:12px;border:1px solid var(--line);font:inherit;background:white}textarea{min-height:80px}table{width:100%;border-collapse:collapse;font-size:14px}th,td{padding:10px;border-bottom:1px solid var(--line);text-align:left}th{color:var(--muted);font-size:12px;background:#f8fafc}.qty{max-width:110px}.right{text-align:right}.totalBox{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:12px}.total{padding:14px;border-radius:14px;background:#f8fafc;border:1px solid var(--line)}.total b{display:block;font-size:12px;color:var(--muted);margin-bottom:6px}.total span{font-size:22px;font-weight:800}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}button{border:0;border-radius:12px;padding:12px 16px;font-weight:800;cursor:pointer}button.primary{background:var(--brand);color:white}button.secondary{background:#e2e8f0}button.danger{background:#fee2e2;color:#991b1b}.msg{margin-top:12px;padding:12px;border-radius:12px;display:none}.msg.ok{display:block;background:#dcfce7;color:#14532d}.msg.err{display:block;background:#fee2e2;color:#7f1d1d}.list{max-height:340px;overflow:auto}.record{border:1px solid var(--line);border-radius:14px;padding:12px;margin:10px 0;background:#fff}.record strong{display:block}.muted{color:var(--muted);font-size:12px}.warn{color:var(--bad)}@media(max-width:900px){.grid,.row,.row2,.kpis,.totalBox{grid-template-columns:1fr}header{padding:18px 14px}.card{border-radius:14px;padding:14px}.title{font-size:20px}}
+</style>
 </head>
 <body>
-  <div class="app">
-    <aside class="sidebar">
-      <div class="brand"><div class="logo">G</div><div><b>Glitch</b><span>Daily Collection</span></div></div>
-      <button class="nav active" data-page="dashboard">Dashboard</button>
-      <button class="nav" data-page="form">New Submission</button>
-      <button class="nav" data-page="reports">Reports</button>
-      <button class="nav" data-page="settings">Settings</button>
-    </aside>
-
-    <main>
-      <header>
-        <h1>Daily Collection Remittance</h1>
-        <div class="actions">
-          <button id="exportCsv" class="secondary">Export CSV / Excel</button>
-          <button id="clearData" class="danger">Clear Local Data</button>
-        </div>
-      </header>
-
-      <section id="dashboard" class="page active">
-        <div class="cards">
-          <div class="card"><span>Total Cash</span><b id="kpiCash">AED 0.00</b></div>
-          <div class="card"><span>Total Card</span><b id="kpiCard">AED 0.00</b></div>
-          <div class="card"><span>Grand Total</span><b id="kpiGrand">AED 0.00</b></div>
-          <div class="card"><span>Difference</span><b id="kpiDiff">AED 0.00</b></div>
-        </div>
-        <div class="panel"><h2>Latest Submissions</h2><div class="table-wrap"><table id="latestTable"></table></div></div>
-      </section>
-
-      <section id="form" class="page">
-        <form id="collectionForm" class="panel form-grid">
-          <h2>New Daily Collection Form</h2>
-          <label>Date <input name="date" type="date" required></label>
-          <label>Time <input name="time" type="time" required></label>
-          <label>Store <select name="store"><option>Glitch Dubai Mall</option><option>Glitch Abu Dhabi</option><option>Flayva</option></select></label>
-          <label>Department <input name="department" value="Operations"></label>
-          <label>POS ID <input name="posId" placeholder="POS-01" required></label>
-          <label>Cashier Name <input name="cashier" required></label>
-          <label>Manager on Duty <input name="manager" required></label>
-          <label>Shift <select name="shift"><option>Morning</option><option>Evening</option><option>Night</option></select></label>
-          <label>Float Amount <input name="floatAmount" type="number" step="0.01" value="0"></label>
-          <label>Expected POS Total <input name="expectedTotal" type="number" step="0.01" value="0"></label>
-
-          <h3>Cash Count</h3>
-          <div class="denoms" id="denoms"></div>
-
-          <h3>Card / Voucher Count</h3>
-          <label>Visa <input name="visa" type="number" step="0.01" value="0"></label>
-          <label>MasterCard <input name="mastercard" type="number" step="0.01" value="0"></label>
-          <label>Amex <input name="amex" type="number" step="0.01" value="0"></label>
-          <label>TPV Vouchers <input name="tpv" type="number" step="0.01" value="0"></label>
-          <label>Other Card <input name="otherCard" type="number" step="0.01" value="0"></label>
-
-          <h3>Foreign Currency AED Value</h3>
-          <label>USD <input name="usd" type="number" step="0.01" value="0"></label>
-          <label>GBP <input name="gbp" type="number" step="0.01" value="0"></label>
-          <label>EURO <input name="eur" type="number" step="0.01" value="0"></label>
-          <label>SAR <input name="sar" type="number" step="0.01" value="0"></label>
-          <label>OMR <input name="omr" type="number" step="0.01" value="0"></label>
-          <label>KWD <input name="kwd" type="number" step="0.01" value="0"></label>
-          <label>BHD <input name="bhd" type="number" step="0.01" value="0"></label>
-          <label>QAR <input name="qar" type="number" step="0.01" value="0"></label>
-
-          <div class="summary-box">
-            <div>Total Cash: <b id="cashTotal">AED 0.00</b></div>
-            <div>Card Total: <b id="cardTotal">AED 0.00</b></div>
-            <div>Foreign Total: <b id="foreignTotal">AED 0.00</b></div>
-            <div>Grand Total: <b id="grandTotal">AED 0.00</b></div>
-            <div>Difference: <b id="difference">AED 0.00</b></div>
-          </div>
-          <label class="full">Manager Comment <textarea name="comment"></textarea></label>
-          <button class="primary full" type="submit">Submit Collection</button>
-        </form>
-      </section>
-
-      <section id="reports" class="page">
-        <div class="panel"><h2>Reports</h2><input id="search" placeholder="Search store, cashier, POS, date..."/><div class="table-wrap"><table id="reportTable"></table></div></div>
-      </section>
-
-      <section id="settings" class="page">
-        <div class="panel"><h2>Google Sheets Backend Link</h2>
-          <p>Paste your Google Apps Script Web App URL below to push every submission to Google Sheets online.</p>
-          <input id="sheetUrl" placeholder="https://script.google.com/macros/s/....../exec" />
-          <button id="saveSheetUrl" class="primary">Save Backend URL</button>
-          <p class="hint">Apps Script code is included in <b>google-apps-script.js</b>.</p>
-        </div>
-      </section>
-    </main>
-  </div>
-  <script src="app.js"></script>
-</body>
-</html>
+<header><div class="wrap top"><div><div class="title">Daily Collection Web Form</div><div class="sub">Cash count, card count, float and Google Sheets tracking</div></div><div class="pill">Google Sheets Backend Ready</div></div></header>
+<main class="wrap">
+<div class="kpis" style="margin-top:18px"><div class="kpi"><div class="label">Cash Total</div><div class="val" id="kCash">AED 0.00</div></div><div class="kpi"><div class="label">Card Total</div><div class="val" id="kCard">AED 0.00</div></div><div class="kpi"><div class="label">Grand Total</div><div class="val" id="kGrand">AED 0.00</div></div><div class="kpi"><div class="label">Difference</div><div class="val" id="kDiff">AED 0.00</div></div></div>
+<div class="grid"><section class="card"><div class="section-title">Collection Details</div><div class="row"><div><label>Date</label><input id="collectionDate" type="date"></div><div><label>Store</label><select id="store"><option>Glitch Dubai</option><option>Glitch Abu Dhabi</option><option>Flayva</option><option>Other Store</option></select></div><div><label>Department</label><select id="department"><option>Operations</option><option>Finance</option><option>F&B</option><option>Retail</option></select></div></div><div class="row" style="margin-top:12px"><div><label>POS ID</label><input id="posId" placeholder="POS-01"></div><div><label>Shift</label><select id="shift"><option>Opening</option><option>Mid</option><option>Closing</option><option>Other</option></select></div><div><label>Opening Float</label><input id="openingFloat" type="number" step="0.01" value="0"></div></div><div class="row2" style="margin-top:12px"><div><label>Cashier Name</label><input id="cashier" placeholder="Cashier"></div><div><label>Manager Name</label><input id="manager" placeholder="Manager"></div></div><div class="row2" style="margin-top:12px"><div><label>Expected Cash from POS</label><input id="expectedCash" type="number" step="0.01" value="0"></div><div><label>Foreign Currency AED Value</label><input id="foreignCurrencyAED" type="number" step="0.01" value="0"></div></div><div style="margin-top:12px"><label>Remarks</label><textarea id="remarks" placeholder="Any shortage/excess reason, bag number, notes..."></textarea></div></section>
+<aside class="card"><div class="section-title">Recent Submissions on This Device</div><div class="muted">This list is local browser history. Official records go to Google Sheets once the Apps Script URL is added.</div><div class="list" id="recentList"></div><div class="actions"><button class="secondary" onclick="exportLocalCSV()">Export Local CSV</button><button class="danger" onclick="clearLocal()">Clear Local</button></div></aside></div>
+<section class="card"><div class="section-title">Cash Denominations</div><table><thead><tr><th>Denomination</th><th>Qty</th><th class="right">Total</th></tr></thead><tbody id="denomBody"></tbody></table></section>
+<section class="card" style="margin-top:18px"><div class="section-title">Card / Digital Payments</div><div class="row"><div><label>Visa</label><input class="cardAmt" data-method="Visa" type="number" step="0.01" value="0"></div><div><label>MasterCard</label><input class="cardAmt" data-method="MasterCard" type="number" step="0.01" value="0"></div><div><label>Amex</label><input class="cardAmt" data-method="Amex" type="number" step="0.01" value="0"></div></div><div class="row" style="margin-top:12px"><div><label>Apple Pay</label><input class="cardAmt" data-method="Apple Pay" type="number" step="0.01" value="0"></div><div><label>Google Pay</label><input class="cardAmt" data-method="Google Pay" type="number" step="0.01" value="0"></div><div><label>Other</label><input class="cardAmt" data-method="Other" type="number" step="0.01" value="0"></div></div><div class="totalBox"><div class="total"><b>Actual Cash Total</b><span id="cashTotal">AED 0.00</span></div><div class="total"><b>Card Total</b><span id="cardTotal">AED 0.00</span></div><div class="total"><b>Grand Total</b><span id="grandTotal">AED 0.00</span></div><div class="total"><b>Difference vs Expected Cash</b><span id="difference">AED 0.00</span></div></div><div class="actions"><button class="primary" onclick="submitForm()">Submit to Google Sheets</button><button class="secondary" onclick="resetForm()">Reset Form</button></div><div id="msg" class="msg"></div></section>
+</main>
+<script src="config.js"></script>
+<script>
+const denoms=[1000,500,200,100,50,20,10,5,1,0.5,0.25];
+const fmt=n=>`AED ${(Number(n)||0).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})}`;
+const id=()=>`DC-${new Date().toISOString().replace(/[-:.TZ]/g,'').slice(0,14)}-${Math.floor(Math.random()*900+100)}`;
+function init(){document.getElementById('collectionDate').valueAsDate=new Date();document.getElementById('denomBody').innerHTML=denoms.map(d=>`<tr><td>${d>=1?d+' AED':(d*100)+' fils'}</td><td><input class="qty denomQty" data-denom="${d}" type="number" min="0" step="1" value="0"></td><td class="right" id="tot_${String(d).replace('.','_')}">AED 0.00</td></tr>`).join('');document.querySelectorAll('input,select,textarea').forEach(e=>e.addEventListener('input',calc));renderRecent();calc();}
+function val(x){return Number(document.getElementById(x).value)||0}
+function calc(){let cash=0;document.querySelectorAll('.denomQty').forEach(inp=>{let d=Number(inp.dataset.denom),q=Number(inp.value)||0,t=d*q;cash+=t;document.getElementById('tot_'+String(d).replace('.','_')).textContent=fmt(t)});let card=0;document.querySelectorAll('.cardAmt').forEach(i=>card+=Number(i.value)||0);let fc=val('foreignCurrencyAED'), grand=cash+card+fc, diff=cash-val('expectedCash');['cashTotal','kCash'].forEach(x=>document.getElementById(x).textContent=fmt(cash));['cardTotal','kCard'].forEach(x=>document.getElementById(x).textContent=fmt(card));['grandTotal','kGrand'].forEach(x=>document.getElementById(x).textContent=fmt(grand));['difference','kDiff'].forEach(x=>{let el=document.getElementById(x);el.textContent=fmt(diff);el.className=diff<0?'warn':''});return {cash,card,fc,grand,diff}}
+function buildPayload(){let totals=calc();return {collectionId:id(),submittedAt:new Date().toISOString(),collectionDate:document.getElementById('collectionDate').value || new Date().toISOString().slice(0,10),store:document.getElementById('store').value,department:document.getElementById('department').value,posId:document.getElementById('posId').value,shift:document.getElementById('shift').value,cashier:document.getElementById('cashier').value,manager:document.getElementById('manager').value,openingFloat:val('openingFloat'),expectedCash:val('expectedCash'),actualCashTotal:totals.cash,cardTotal:totals.card,foreignCurrencyAED:totals.fc,grandTotal:totals.grand,difference:totals.diff,status:'Submitted',remarks:document.getElementById('remarks').value,denominations:[...document.querySelectorAll('.denomQty')].map(i=>({denomination:Number(i.dataset.denom),quantity:Number(i.value)||0,total:(Number(i.dataset.denom)*(Number(i.value)||0))})),cards:[...document.querySelectorAll('.cardAmt')].map(i=>({paymentMethod:i.dataset.method,amount:Number(i.value)||0}))}}
+async function submitForm(){let m=document.getElementById('msg');m.className='msg';m.textContent='';const p=buildPayload();if(!p.cashier||!p.manager||!p.posId){m.className='msg err';m.textContent='Please enter POS ID, Cashier and Manager.';return}saveLocal(p);if(!GOOGLE_SCRIPT_URL||GOOGLE_SCRIPT_URL.includes('PASTE_YOUR')){m.className='msg err';m.textContent='Saved locally only. Please paste your Google Apps Script Web App URL in config.js.';renderRecent();return}try{const res=await fetch(GOOGLE_SCRIPT_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(p)});m.className='msg ok';m.textContent='Submitted to Google Sheets. Please verify the sheet row if this is your first setup.';renderRecent();}catch(e){m.className='msg err';m.textContent='Could not send to Google Sheets. Saved locally. Error: '+e.message;renderRecent();}}
+function saveLocal(p){let a=JSON.parse(localStorage.getItem('dailyCollections')||'[]');a.unshift(p);localStorage.setItem('dailyCollections',JSON.stringify(a.slice(0,100)))}
+function renderRecent(){let a=JSON.parse(localStorage.getItem('dailyCollections')||'[]');document.getElementById('recentList').innerHTML=a.length?a.slice(0,20).map(r=>`<div class="record"><strong>${r.collectionId}</strong><div>${r.store} • ${r.cashier}</div><div class="muted">Date: ${r.collectionDate || '-'} • Submitted: ${new Date(r.submittedAt).toLocaleString()} • Grand ${fmt(r.grandTotal)}</div></div>`).join(''):'<p class="muted">No local submissions yet.</p>'}
+function clearLocal(){if(confirm('Clear local browser history?')){localStorage.removeItem('dailyCollections');renderRecent()}}
+function exportLocalCSV(){let a=JSON.parse(localStorage.getItem('dailyCollections')||'[]');let rows=[['CollectionID','SubmittedAt','Date','Store','Cashier','Cash','Card','Grand','Difference'],...a.map(r=>[r.collectionId,r.submittedAt,r.collectionDate,r.store,r.cashier,r.actualCashTotal,r.cardTotal,r.grandTotal,r.difference])];let csv=rows.map(r=>r.map(v=>'"'+String(v??'').replaceAll('"','""')+'"').join(',')).join('\n');let blob=new Blob([csv],{type:'text/csv'}),url=URL.createObjectURL(blob),aTag=document.createElement('a');aTag.href=url;aTag.download='daily_collection_local.csv';aTag.click();URL.revokeObjectURL(url)}
+function resetForm(){document.querySelectorAll('input').forEach(i=>{if(i.type==='date')i.valueAsDate=new Date();else i.value=(i.classList.contains('denomQty')||i.classList.contains('cardAmt')||i.type==='number')?0:''});document.getElementById('remarks').value='';calc()}
+init();
+</script>
+</body></html>

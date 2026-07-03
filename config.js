@@ -2,4 +2,5 @@
 // 2) Deploy it as Web App.
 // 3) Paste the Web App URL below.
 const CONFIG = {
-    WEB_APP_URL: "https://script.google.com/macros/s/AKfycbyJkB1BxreeMPPmg7bQkjKByv75phIFhdYlK-fO8_7zt8DfqugvEfKPmOl-rEOTREkFeg/exec" }
+    WEB_APP_URL: "https://script.google.com/macros/s/AKfycbyJkB1BxreeMPPmg7bQkjKByv75phIFhdYlK-fO8_7zt8DfqugvEfKPmOl-rEOTREkFeg/exec"
+};
